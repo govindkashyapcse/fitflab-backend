@@ -1,8 +1,8 @@
 import os
 from flask import Flask
-from src.database import mongo
-from src.bcrypt import bcrypt
-from src.mailer import mail
+from src.extensions import mongo
+from src.extensions import bcrypt
+from src.extensions import mail
 from dotenv import load_dotenv
 from src.blueprints.users import users_bp
 
@@ -13,9 +13,9 @@ def create_app():
     
     # configuration of mail
     app.config['MAIL_SERVER']='smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'preplyft@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'vflaamrrjikkmaze'
+    app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
     
@@ -41,3 +41,6 @@ def home():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
+
