@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from ..schemas.UserSchema import user_schema, profile_schema, goal_schema
+from ..schemas.User import user_schema, profile_schema, goal_schema
 from marshmallow import ValidationError
 from flask_mail import Message
 from ..extensions import mongo
@@ -7,7 +7,6 @@ from ..extensions import bcrypt
 from ..extensions import mail
 
 users_bp = Blueprint('users', __name__)
-
 
 @users_bp.route('/signup', methods = ['POST'])
 def signup():
@@ -49,9 +48,9 @@ def login():
         return jsonify(err.messages), 400
 
 @users_bp.route('/profile', methods = ['POST'])
-def extraDetails():
+def profile():
     try:
-        data = profile_schema.load(request.json, partial=True)
+        data = profile_schema.load(request.json)
         data['userId'] = "123456789" 
         res = mongo.db.users.insert_one(data)
         return jsonify({"id": res.inserted_id})

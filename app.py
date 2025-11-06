@@ -5,6 +5,8 @@ from src.extensions import bcrypt
 from src.extensions import mail
 from dotenv import load_dotenv
 from src.blueprints.users import users_bp
+from src.extensions import cors
+
 
 def create_app():
     app = Flask(__name__)
@@ -24,7 +26,8 @@ def create_app():
     mail.init_app(app)
     # Initialize the mongo extension with the app here
     mongo.init_app(app)
-
+    
+    cors.init_app(app, origins="*")
     # Register blueprints or routes here
     app.register_blueprint(users_bp, url_prefix="/api/users")
     
