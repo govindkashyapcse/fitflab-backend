@@ -6,10 +6,12 @@ class UserSchema(Schema):
     password = fields.String(required=True,
             validate=validate.Length(min=6, max=16,
             error = "Password must be 6 to 16 characters!"))
+    role = fields.Integer()
+    provider = fields.String(validate=validate.Length(max=50))
 
 class ProfileSchema(Schema):
     userId = fields.String()
-    name = fields.String()
+    name = fields.String(required=True)
     gender = fields.String(
             validate=validate.OneOf(['male','female','other']))
     dob = fields.DateTime(format="%d-%m-%Y")
@@ -27,8 +29,13 @@ class GoalSchema(Schema):
                             values=fields.Float())
 
     
+class OTPSchema(Schema):
+        email = fields.Email(required=True)
+        otp = fields.Integer(required=True)
+
+
 user_schema = UserSchema()
 profile_schema = ProfileSchema()
 goal_schema = GoalSchema()
-
+otp_schema = OTPSchema()
     

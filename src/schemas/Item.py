@@ -3,7 +3,6 @@ from marshmallow import Schema, fields, validate
 
 class FoodSchema(Schema):
     name = fields.String(required=True)
-    photoURL = fields.String()
     nutrients = fields.Dict(required=True, 
             keys=fields.String(), values=fields.Float())
     servingSize = fields.Float(required=True)
@@ -11,7 +10,6 @@ class FoodSchema(Schema):
             validate=validate.OneOf(['ml','g','kg','l','qt','pt','tbsp']))
 class MealSchema(Schema):
     name = fields.String(required=True)
-    photoURL = fields.String()
     items = fields.List(fields.Dict(keys=fields.String(), 
                     values=fields.Integer()),required=True)
     calories = fields.Integer()
@@ -24,4 +22,8 @@ class DietSchema(Schema):
     durationDays = fields.Integer(required=True)
     difficulty = fields.String(
         validate=validate.OneOf(['easy', 'moderate', 'difficult']))
-    
+
+
+food_schema = FoodSchema()
+meal_schema = MealSchema()
+diet_schema = DietSchema()

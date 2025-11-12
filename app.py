@@ -5,13 +5,14 @@ from src.extensions import bcrypt
 from src.extensions import mail
 from dotenv import load_dotenv
 from src.blueprints.users import users_bp
+from src.blueprints.items import items_bp
 from src.extensions import cors
 
 
 def create_app():
     app = Flask(__name__)
     load_dotenv()
-    app.config['MONGO_URI'] = os.getenv("MONGODB_URI")
+    app.config['MONGO_URI'] = os.getenv("MONGODB_DEV_URI")
     
     # configuration of mail
     app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -21,6 +22,8 @@ def create_app():
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
     
+    app.config['SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    
     bcrypt.init_app(app)
     
     mail.init_app(app)
@@ -28,8 +31,10 @@ def create_app():
     mongo.init_app(app)
     
     cors.init_app(app, origins="*")
+            
     # Register blueprints or routes here
     app.register_blueprint(users_bp, url_prefix="/api/users")
+    app.register_blueprint(items_bp, url_prefix="/api/items")
     
     return app
 
@@ -39,6 +44,7 @@ app = create_app()
 @app.route('/')
 def home():
     return {"msg": "Welcome to Fitflab"}
+
 
     
 
