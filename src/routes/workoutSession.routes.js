@@ -14,8 +14,8 @@ import {
 
 const router = Router();
 
-router.get("/", protect, getAllWorkoutSessions);
-router.get("/:id", protect, getWorkoutSession);
+router.get("/", getAllWorkoutSessions);
+router.get("/:id", getWorkoutSession);
 
 router.post(
   "/",

@@ -15,8 +15,8 @@ import {
 const router = Router();
 
 // Public — any authenticated user can browse
-router.get("/", protect, getAllWorkouts);
-router.get("/:id", protect, getWorkout);
+router.get("/", getAllWorkouts);
+router.get("/:id", getWorkout);
 
 // Coach / Admin only — write operations
 router.post(

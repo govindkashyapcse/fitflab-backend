@@ -15,8 +15,8 @@ import {
 const router = Router();
 
 // Public read for all authenticated users
-router.get("/", protect, getAllPosts);
-router.get("/:id", protect, getPost);
+router.get("/", getAllPosts);
+router.get("/:id", getPost);
 
 // Write — coach/admin only
 router.post(
