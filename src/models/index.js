@@ -9,7 +9,7 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true, select: false },
+    password: { type: String, required: true},
     name: { type: String, required: true, trim: true },
     role: { type: String, enum: ["athlete", "coach", "admin"], default: "athlete" },
     gender: { type: String, enum: ["male", "female", "other"] },
@@ -33,8 +33,9 @@ userSchema.pre("save", async function (next) {
 });
 
 // Compare password helper
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+userSchema.methods.comparePassword = async function (candidatePassword, dbPassword) {
+  const res = await bcrypt.compare(candidatePassword, dbPassword);
+  return res;
 };
 
 /* =========================

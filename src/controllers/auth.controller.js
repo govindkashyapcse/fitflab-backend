@@ -86,7 +86,7 @@ export const login = async (req, res) => {
       return errorResponse(res, "Please use the admin login endpoint.", 403);
     }
 
-    const isPasswordCorrect = await user.comparePassword(password);
+    const isPasswordCorrect = await user.comparePassword(password, user.password);
     if (!isPasswordCorrect) {
       return errorResponse(res, "Invalid credentials.", 401);
     }
