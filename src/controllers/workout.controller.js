@@ -26,7 +26,7 @@ export const createWorkout = async (req, res) => {
 export const getAllWorkouts = async (req, res) => {
   try {
     const workouts = await Workout.find().populate("createdBy", "name email");
-    return successResponse(res, { workouts });
+    return successResponse(res,  workouts );
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
