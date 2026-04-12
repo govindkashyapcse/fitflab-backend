@@ -25,10 +25,16 @@ export const registerAthlete = async (req, res) => {
     await AthleteProfile.create({ user: user._id, dob, weight, height });
 
     const token = generateToken(user._id);
+    const athleteData = {
+      token: token,
+      _id: user._id,
+      email: user.email,
+      name: user.name
+    }
 
     return successResponse(
       res,
-      { token, user: sanitizeUser(user) },
+      athleteData,
       "Athlete registered successfully.",
       201
     );
@@ -58,7 +64,7 @@ export const registerCoach = async (req, res) => {
 
     return successResponse(
       res,
-      { user: sanitizeUser(user) },
+      user,
       "Coach account created. Awaiting admin approval before you can log in.",
       201
     );
@@ -101,10 +107,16 @@ export const login = async (req, res) => {
     }
 
     const token = generateToken(user._id);
+    const userData = {
+      token: token,
+      _id: user._id,
+      email: user.email,
+      name: user.name
+    }
 
     return successResponse(
       res,
-      { token, user: sanitizeUser(user) },
+      userData,
       "Login successful."
     );
   } catch (error) {
@@ -132,10 +144,16 @@ export const adminLogin = async (req, res) => {
     }
 
     const token = generateToken(user._id);
+    const adminData = {
+      token: token,
+      _id: user._id,
+      email: user.email,
+      name: user.name
+    }
 
     return successResponse(
       res,
-      { token, user: sanitizeUser(user) },
+      adminData,
       "Admin login successful."
     );
   } catch (error) {
@@ -146,15 +164,10 @@ export const adminLogin = async (req, res) => {
 /* ─── Get Current User (me) ─── */
 export const getMe = async (req, res) => {
   try {
-    return successResponse(res, { user: sanitizeUser(req.user) });
+    return successResponse(res, req.user);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
 };
 
-/* ─── Helper ─── */
-const sanitizeUser = (user) => {
-  const u = user.toObject ? user.toObject() : { ...user };
-  delete u.password;
-  return u;
-};
+

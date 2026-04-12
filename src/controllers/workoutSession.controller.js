@@ -13,7 +13,7 @@ export const createWorkoutSession = async (req, res) => {
       createdBy: req.user._id,
     });
 
-    return successResponse(res, { session }, "Workout session created.", 201);
+    return successResponse(res, session, "Workout session created.", 201);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -24,7 +24,7 @@ export const getAllWorkoutSessions = async (req, res) => {
     const sessions = await WorkoutSession.find()
       .populate("workouts")
       .populate("createdBy", "name email");
-    return successResponse(res, { sessions });
+    return successResponse(res, sessions);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -36,7 +36,7 @@ export const getWorkoutSession = async (req, res) => {
       .populate("workouts")
       .populate("createdBy", "name email");
     if (!session) return errorResponse(res, "Session not found.", 404);
-    return successResponse(res, { session });
+    return successResponse(res, session);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -60,7 +60,7 @@ export const updateWorkoutSession = async (req, res) => {
       { new: true }
     ).populate("workouts");
 
-    return successResponse(res, { session: updated }, "Session updated.");
+    return successResponse(res, updated, "Session updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }

@@ -18,7 +18,7 @@ export const createFood = async (req, res) => {
       createdBy: req.user._id,
     });
 
-    return successResponse(res, { food }, "Food created.", 201);
+    return successResponse(res, food, "Food created.", 201);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -32,7 +32,7 @@ export const getAllFoods = async (req, res) => {
       : {};
 
     const foods = await Food.find(filter).populate("createdBy", "name");
-    return successResponse(res, { foods });
+    return successResponse(res, foods);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -42,7 +42,7 @@ export const getFood = async (req, res) => {
   try {
     const food = await Food.findById(req.params.id);
     if (!food) return errorResponse(res, "Food not found.", 404);
-    return successResponse(res, { food });
+    return successResponse(res, food);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -63,7 +63,7 @@ export const updateFood = async (req, res) => {
     const updated = await Food.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    return successResponse(res, { food: updated }, "Food updated.");
+    return successResponse(res, updated, "Food updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -102,7 +102,7 @@ export const setNutritionGoal = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    return successResponse(res, { goal }, "Nutrition goal saved.");
+    return successResponse(res, goal, "Nutrition goal saved.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -112,7 +112,7 @@ export const getNutritionGoal = async (req, res) => {
   try {
     const goal = await NutritionGoal.findOne({ user: req.user._id });
     if (!goal) return errorResponse(res, "No nutrition goal set.", 404);
-    return successResponse(res, { goal });
+    return successResponse(res, goal);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }

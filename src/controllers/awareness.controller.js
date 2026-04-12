@@ -12,7 +12,7 @@ export const createPost = async (req, res) => {
       createdBy: req.user._id,
     });
 
-    return successResponse(res, { post }, "Awareness post created.", 201);
+    return successResponse(res, post, "Awareness post created.", 201);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -23,7 +23,7 @@ export const getAllPosts = async (req, res) => {
     const posts = await AwarenessPost.find()
       .populate("createdBy", "name")
       .sort({ createdAt: -1 });
-    return successResponse(res, { posts });
+    return successResponse(res, posts);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -36,7 +36,7 @@ export const getPost = async (req, res) => {
       "name"
     );
     if (!post) return errorResponse(res, "Post not found.", 404);
-    return successResponse(res, { post });
+    return successResponse(res, post);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -59,7 +59,7 @@ export const updatePost = async (req, res) => {
       req.body,
       { new: true }
     );
-    return successResponse(res, { post: updated }, "Post updated.");
+    return successResponse(res, updated, "Post updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }

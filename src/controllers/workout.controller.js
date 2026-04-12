@@ -16,7 +16,7 @@ export const createWorkout = async (req, res) => {
       createdBy: req.user._id,
     });
 
-    return successResponse(res, { workout }, "Workout created.", 201);
+    return successResponse(res, workout, "Workout created.", 201);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -40,7 +40,7 @@ export const getWorkout = async (req, res) => {
       "name email"
     );
     if (!workout) return errorResponse(res, "Workout not found.", 404);
-    return successResponse(res, { workout });
+    return successResponse(res, workout);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -64,7 +64,7 @@ export const updateWorkout = async (req, res) => {
       new: true,
     });
 
-    return successResponse(res, { workout: updated }, "Workout updated.");
+    return successResponse(res, updated, "Workout updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }

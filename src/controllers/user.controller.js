@@ -15,7 +15,7 @@ export const getAthleteProfile = async (req, res) => {
       return errorResponse(res, "Profile not found.", 404);
     }
 
-    return successResponse(res, { profile });
+    return successResponse(res, profile);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -32,7 +32,7 @@ export const updateAthleteProfile = async (req, res) => {
       { new: true, upsert: true }
     );
 
-    return successResponse(res, { profile }, "Profile updated.");
+    return successResponse(res, profile, "Profile updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -47,9 +47,9 @@ export const updateUserInfo = async (req, res) => {
       req.user._id,
       { name, gender },
       { new: true }
-    ).select("-password");
+    )
 
-    return successResponse(res, { user }, "User info updated.");
+    return successResponse(res, user, "User info updated.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -60,8 +60,8 @@ export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user._id).select("+password");
-    const isMatch = await user.comparePassword(currentPassword);
+    const user = await User.findById(req.user._id);
+    const isMatch = await user.comparePassword(currentPassword, user.password);
 
     if (!isMatch) {
       return errorResponse(res, "Current password is incorrect.", 401);

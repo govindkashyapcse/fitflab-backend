@@ -11,7 +11,7 @@ export const getAllCoaches = async (req, res) => {
     else if (status === "approved") filter.isApproved = true;
 
     const coaches = await User.find(filter).select("-password");
-    return successResponse(res, { coaches });
+    return successResponse(res, coaches);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -32,7 +32,7 @@ export const approveCoach = async (req, res) => {
       return errorResponse(res, "Coach not found.", 404);
     }
 
-    return successResponse(res, { coach }, "Coach approved successfully.");
+    return successResponse(res, coach, "Coach approved successfully.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -53,7 +53,7 @@ export const revokeCoach = async (req, res) => {
       return errorResponse(res, "Coach not found.", 404);
     }
 
-    return successResponse(res, { coach }, "Coach approval revoked.");
+    return successResponse(res, coach, "Coach approval revoked.");
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
@@ -63,7 +63,7 @@ export const revokeCoach = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({ role: "athlete" }).select("-password");
-    return successResponse(res, { users });
+    return successResponse(res, users);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }

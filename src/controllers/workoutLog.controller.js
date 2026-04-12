@@ -16,7 +16,7 @@ export const logWorkout = async (req, res) => {
       date: date || new Date(),
     });
 
-    return successResponse(res, { log }, "Workout logged.", 201);
+    return successResponse(res, log, "Workout logged.", 201);
   } catch (error) {
     return errorResponse(res, error.message, 500);
   }
